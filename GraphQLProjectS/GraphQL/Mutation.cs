@@ -6,7 +6,7 @@ namespace GraphQLProjectS.GraphQL
 {
     public class Mutation
     {
-        // ----- CLASS -----
+  
         public async Task<SchoolClass> AddClass(ClassInput input, [Service] SchoolJournalDbContext db)
         {
             var entity = new SchoolClass { Name = input.Name.Trim() };
@@ -23,7 +23,7 @@ namespace GraphQLProjectS.GraphQL
             return true;
         }
 
-        // ----- STUDENT -----
+    
         public async Task<Student> AddStudent(StudentInput input, [Service] SchoolJournalDbContext db)
         {
             if (!await db.SchoolClasses.AnyAsync(c => c.Id == input.SchoolClassId))
@@ -34,7 +34,7 @@ namespace GraphQLProjectS.GraphQL
                 LastName = input.LastName.Trim(),
                 FirstName = input.FirstName.Trim(),
                 MiddleName = input.MiddleName?.Trim(),
-                BirthDate = input.BirthDate,              // DateOnly
+                BirthDate = input.BirthDate,             
                 SchoolClassId = input.SchoolClassId
             };
 
@@ -51,7 +51,7 @@ namespace GraphQLProjectS.GraphQL
             return true;
         }
 
-        // ----- TEACHER -----
+    
         public async Task<Teacher> AddTeacher(TeacherInput input, [Service] SchoolJournalDbContext db)
         {
             var entity = new Teacher
@@ -59,7 +59,7 @@ namespace GraphQLProjectS.GraphQL
                 LastName = input.LastName.Trim(),
                 FirstName = input.FirstName.Trim(),
                 MiddleName = input.MiddleName?.Trim(),
-                BirthDate = input.BirthDate               // DateOnly
+                BirthDate = input.BirthDate               
             };
 
             db.Teachers.Add(entity);
@@ -75,7 +75,7 @@ namespace GraphQLProjectS.GraphQL
             return true;
         }
 
-        // ----- SUBJECT -----
+    
         public async Task<Subject> AddSubject(SubjectInput input, [Service] SchoolJournalDbContext db)
         {
             var entity = new Subject { Name = input.Name.Trim() };
@@ -92,7 +92,7 @@ namespace GraphQLProjectS.GraphQL
             return true;
         }
 
-        // ----- TEACHING ASSIGNMENT -----
+  
         public async Task<TeachingAssignment> AddTeachingAssignment(TeachingAssignmentInput input, [Service] SchoolJournalDbContext db)
         {
             if (!await db.Teachers.AnyAsync(x => x.Id == input.TeacherId))
@@ -132,7 +132,7 @@ namespace GraphQLProjectS.GraphQL
             return true;
         }
 
-        // ----- GRADE -----
+    
         public async Task<Grade> AddGrade(GradeInput input, [Service] SchoolJournalDbContext db)
         {
             if (input.Value < 2 || input.Value > 5)
@@ -148,7 +148,7 @@ namespace GraphQLProjectS.GraphQL
             {
                 StudentId = input.StudentId,
                 SubjectId = input.SubjectId,
-                Date = input.Date,           // DateOnly
+                Date = input.Date,           
                 Value = input.Value
             };
 
@@ -165,7 +165,7 @@ namespace GraphQLProjectS.GraphQL
             return true;
         }
 
-        // ----- ATTENDANCE -----
+   
         public async Task<Attendance> AddAttendance(AttendanceInput input, [Service] SchoolJournalDbContext db)
         {
             if (!await db.Students.AnyAsync(x => x.Id == input.StudentId))
@@ -174,7 +174,7 @@ namespace GraphQLProjectS.GraphQL
             var entity = new Attendance
             {
                 StudentId = input.StudentId,
-                Date = input.Date,           // DateOnly
+                Date = input.Date,           
                 IsExcused = input.IsExcused,
                 Reason = input.Reason?.Trim()
             };

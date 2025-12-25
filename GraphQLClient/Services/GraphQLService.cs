@@ -105,7 +105,6 @@ public class GraphQLError
     public string Message { get; set; } = "";
 }
 
-// ===== Data wrappers (data -> field) =====
 public class GetStudentsData
 {
     public List<StudentDto>? Students { get; set; }
