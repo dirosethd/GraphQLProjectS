@@ -1,0 +1,80 @@
+﻿@page "/students"
+@inject GraphQLService Api
+
+<h3>Ученики</h3>
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <p style="color:red"><b>Ошибка:</b> @error</p>
+}
+
+<div class="form">
+    <input placeholder="Фамилия" @bind="lastName" />
+    <input placeholder="Имя" @bind="firstName" />
+    <input type="date" @bind="birthDate" />
+    <input type="number" placeholder="ClassId" @bind="classId" />
+    <button @onclick="Add">Добавить</button>
+</div>
+
+@if (students is null && string.IsNullOrWhiteSpace(error))
+{
+    <p>Загрузка...</p>
+}
+else if (students is not null)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ФИО</th>
+                <th>ClassId</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in students)
+            {
+                <tr>
+                    <td>@s.LastName @s.FirstName</td>
+                    <td>@s.SchoolClassId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<StudentDto>? students;
+    private string? error;
+
+    private string lastName = "";
+    private string firstName = "";
+    private DateTime birthDate = new DateTime(2011, 1, 1);
+    private int classId = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            students = await Api.GetStudents();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task Add()
+    {
+        try
+        {
+            error = null;
+            var birthDateStr = birthDate.ToString("yyyy-MM-dd");
+
+            await Api.AddStudent(lastName, firstName, birthDateStr, classId);
+            students = await Api.GetStudents();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+}

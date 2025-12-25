@@ -1,0 +1,33 @@
+﻿@page "/journal"
+@inject GraphQLService Api
+
+<h3>Журнал (7A – Математика)</h3>
+
+@if (journal == null)
+{
+    <p>Загрузка...</p>
+}
+else
+{
+    <p>@journal.ClassName — @journal.SubjectName</p>
+
+    <table>
+        @foreach (var r in journal.Rows)
+        {
+            <tr>
+                <td>@r.StudentFullName</td>
+                <td>@string.Join(", ", r.Grades)</td>
+                <td>@r.Average</td>
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    ClassJournalDto? journal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        journal = await Api.GetJournal(1, 1);
+    }
+}

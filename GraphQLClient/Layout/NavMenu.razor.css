@@ -1,0 +1,13 @@
+nav {
+    width: 220px;
+    background: #2c3e50;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+    nav a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        margin-bottom: 10px;
+    }

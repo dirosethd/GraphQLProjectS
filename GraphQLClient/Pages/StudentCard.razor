@@ -1,0 +1,29 @@
+﻿@page "/student-card"
+@inject GraphQLService Api
+
+<h3>Карточка ученика</h3>
+
+@if (card == null)
+{
+    <p>Загрузка...</p>
+}
+else
+{
+    <p><b>@card.StudentFullName</b> (@card.ClassName)</p>
+
+    <ul>
+        @foreach (var s in card.AveragesBySubject)
+        {
+            <li>@s.SubjectName — @s.Average</li>
+        }
+    </ul>
+}
+
+@code {
+    StudentCardDto? card;
+
+    protected override async Task OnInitializedAsync()
+    {
+        card = await Api.GetStudentCard(1);
+    }
+}

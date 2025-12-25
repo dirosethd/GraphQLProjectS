@@ -1,0 +1,24 @@
+﻿version: "3.9"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: school_sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
+
+  server:
+    build:
+      context: .
+      dockerfile: GraphQLProjectS/Dockerfile
+    container_name: school_server
+    depends_on:
+      - sqlserver
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__SchoolDb: "Data Source=dirose;Initial Catalog=SchoolJournalDb;User ID=dirosethd;Password=1612;Encrypt=False"

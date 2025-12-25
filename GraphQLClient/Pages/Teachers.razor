@@ -1,0 +1,27 @@
+﻿@page "/teachers"
+@inject GraphQLService Api
+
+<h3>Учителя</h3>
+
+@if (teachers == null)
+{
+    <p>Загрузка...</p>
+}
+else
+{
+    <ul>
+        @foreach (var t in teachers)
+        {
+            <li>@t.LastName @t.FirstName</li>
+        }
+    </ul>
+}
+
+@code {
+    List<TeacherDto>? teachers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        teachers = await Api.GetTeachers();
+    }
+}

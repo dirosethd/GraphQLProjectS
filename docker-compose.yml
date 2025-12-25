@@ -1,0 +1,6 @@
+services:
+  graphqlprojects:
+    image: ${DOCKER_REGISTRY-}graphqlprojects
+    build:
+      context: .
+      dockerfile: GraphQLProjectS\Dockerfile
